@@ -1,0 +1,103 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\qnaApp.csproj": {}
+  },
+  "projects": {
+    "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\qnaApp.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\qnaApp.csproj",
+        "projectName": "qnaApp",
+        "projectPath": "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\qnaApp.csproj",
+        "packagesPath": "C:\\Users\\Lenovo\\.nuget\\packages\\",
+        "outputPath": "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "default"
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Azure.AI.Language.QuestionAnswering": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Azure.AI.TextAnalytics": {
+              "target": "Package",
+              "version": "[5.1.0, )"
+            },
+            "DotNetEnv": {
+              "target": "Package",
+              "version": "[2.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.9, 7.0.9]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[7.0.9, 7.0.9]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.9, 7.0.9]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[7.0.9, 7.0.9]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-preview.7.23376.3\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
