@@ -19,7 +19,7 @@ namespace question_answering
             private static string textAnalyticsEndpoint = Environment.GetEnvironmentVariable("TEXT_ANALYTICS_ENDPOINT");
             private static string cogSvcRegion = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_REGION");
             private static string translatorEndpoint = Environment.GetEnvironmentVariable("TRANSLATOR_ENDPOINT");
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             DotNetEnv.Env.Load();
             
@@ -51,11 +51,26 @@ namespace question_answering
                 }
 
                    // Detect the language of the user input
-                DetectedLanguage language = textAnalyticsClient.DetectLanguage(userInput);
-                string detectedLanguageCode = language.Iso6391Name;
+                   //First detect language code
+                // DetectedLanguage language = textAnalyticsClient.DetectLanguage(userInput);
+                // string detectedLanguageCode = language.Iso6391Name;
 
-                Console.WriteLine($"Detected Language: {detectedLanguageCode}");
+                // Console.WriteLine($"Detected Language: {detectedLanguageCode}");
 
+                //Detect the language of userInput
+                string text = await GetLanguage(userInput);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("Translated input: " + text);
+                Console.ResetColor(); 
+
+                //Translate text with Translator Text API
+                if(userInput != "en")
+                {
+                    var translatedText = await Translate(userInput, text);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Translation: " + translatedText);
+                    Console.ResetColor();
+                }
                 Response<AnswersResult> response = client.GetAnswers(userInput, project);
 
                 foreach (KnowledgeBaseAnswer answer in response.Value.Answers)

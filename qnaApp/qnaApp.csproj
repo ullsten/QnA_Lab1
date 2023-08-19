@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Azure.AI.Language.QuestionAnswering" Version="1.1.0" />
     <PackageReference Include="Azure.AI.TextAnalytics" Version="5.1.0" />
+    <PackageReference Include="Azure.AI.Translation.Text" Version="1.0.0-beta.1" />
     <PackageReference Include="DotNetEnv" Version="2.5.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>

@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "RvlNGn7F/56WRr9fHE/m8+bxcV3S8RYK66Whr3chqN68ZDizQnlZLafA2dwrPHUN70ogH79TgLLSki8exIpGyg==",
+  "dgSpecHash": "K2bEjqnLr+zfCqgONCwHo7CqQkxWWmzlAYUfbboRgc1OudYaz1Xl2byAVMC/DpaCaoKyJ/wcoBJRsrX+GydzTw==",
   "success": true,
   "projectFilePath": "D:\\00.Edugrade - Systemutvecklare\\09.AI\\1.Labbar\\Lab1_test\\qnaApp\\qnaApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.ai.language.questionanswering\\1.1.0\\azure.ai.language.questionanswering.1.1.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\azure.ai.textanalytics\\5.1.0\\azure.ai.textanalytics.5.1.0.nupkg.sha512",
-    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.ai.translation.text\\1.0.0-beta.1\\azure.ai.translation.text.1.0.0-beta.1.nupkg.sha512",
+    "C:\\Users\\Lenovo\\.nuget\\packages\\azure.core\\1.31.0\\azure.core.1.31.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\dotnetenv\\2.5.0\\dotnetenv.2.5.0.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\1.1.1\\microsoft.bcl.asyncinterfaces.1.1.1.nupkg.sha512",
     "C:\\Users\\Lenovo\\.nuget\\packages\\microsoft.extensions.configuration\\1.1.2\\microsoft.extensions.configuration.1.1.2.nupkg.sha512",

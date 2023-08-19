@@ -56,6 +56,10 @@
               "target": "Package",
               "version": "[5.1.0, )"
             },
+            "Azure.AI.Translation.Text": {
+              "target": "Package",
+              "version": "[1.0.0-beta.1, )"
+            },
             "DotNetEnv": {
               "target": "Package",
               "version": "[2.5.0, )"
