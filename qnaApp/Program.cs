@@ -13,38 +13,45 @@ namespace question_answering
 {
     class Program
     {
+        // Load environment variables
         private static string qnaKey = Environment.GetEnvironmentVariable("QNA_KEY");
         private static string qnaEndpoint = Environment.GetEnvironmentVariable("QNA_ENDPOINT");
         private static string cogSvcKey = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_KEY");
         private static string textAnalyticsEndpoint = Environment.GetEnvironmentVariable("TEXT_ANALYTICS_ENDPOINT");
         private static string cogSvcRegion = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_REGION");
         private static string translatorEndpoint = Environment.GetEnvironmentVariable("TRANSLATOR_ENDPOINT");
+
         static async Task Main(string[] args)
         {
+            // Load environment variables from .env file
             DotNetEnv.Env.Load();
 
-            // Set console encoding to unicode, 
+            // Create an instance of LanguageUtility to manage language-related operations
+            LanguageUtility languageUtility = new LanguageUtility(cogSvcKey, cogSvcRegion, translatorEndpoint);
+
+            // Set console encoding to unicode to handle international characters
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
 
+            // Configure QnA Maker client
             Uri endpoint = new Uri(qnaEndpoint);
             AzureKeyCredential credential = new AzureKeyCredential(qnaKey);
             string projectName = "QuestionLab1Test";
             string deploymentName = "production";
-
             QuestionAnsweringClient client = new QuestionAnsweringClient(endpoint, credential);
             QuestionAnsweringProject project = new QuestionAnsweringProject(projectName, deploymentName);
 
+            // Configure Text Analytics client for language detection
             TextAnalyticsClient textAnalyticsClient = new TextAnalyticsClient(new Uri(textAnalyticsEndpoint), new AzureKeyCredential(cogSvcKey));
 
-
+            // Print a welcome message
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Welcome to Surface QNA Info");
             Console.ResetColor();
 
-            // Inside your Main method
             while (true)
             {
+                // Prompt user for a question
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write("Ask a question (or type 'exit' to quit): ");
                 Console.ResetColor();
@@ -56,43 +63,29 @@ namespace question_answering
                     break;
                 }
 
-                //Get Isocode for language
+                // Detect the language of the user input question
                 DetectedLanguage language = textAnalyticsClient.DetectLanguage(userInput);
                 string detectedLanguageCode = language.Iso6391Name;
 
-                //Console.WriteLine($"Detected Language: {detectedLanguageCode}");
+                string translatedInput = userInput;
 
-                string translatedInput = userInput; // Initialize with user input
-
-                // if (detectedLanguageCode != "en")
-                // {
-                //     // Translate user input if not english(en)
-                //     translatedInput = await Translate(userInput, detectedLanguageCode);
-                //     Console.ForegroundColor = ConsoleColor.Blue;
-                //     Console.WriteLine("Translated input: " + translatedInput);
-                //     Console.ResetColor();
-                // }
-
+                // Get answers from the QnA Maker system
                 Response<AnswersResult> response = client.GetAnswers(translatedInput, project);
 
                 foreach (KnowledgeBaseAnswer answer in response.Value.Answers)
                 {
-                    //Get language code for answer
+                    // Detect the language of the answer
                     DetectedLanguage languageAnswer = textAnalyticsClient.DetectLanguage(answer.Answer);
                     var detectedLanguageCodeAnswer = languageAnswer.Iso6391Name;
 
-                    //Console.WriteLine($"Detected answer code: {detectedLanguageCodeAnswer}");
-
                     var qnaAnswer = answer.Answer;
-                    if (detectedLanguageCodeAnswer != detectedLanguageCode) // If the languages are different
+                    if (detectedLanguageCodeAnswer != detectedLanguageCode)
                     {
-                        qnaAnswer = await Translate(answer.Answer, detectedLanguageCodeAnswer, detectedLanguageCode);
-
-                        // Console.ForegroundColor = ConsoleColor.Red;
-                        // Console.WriteLine($"Translated answer: {qnaAnswer}");
-                        // Console.ResetColor();
+                        // Translate the answer to the detected user input question language
+                        qnaAnswer = await languageUtility.Translate(answer.Answer, detectedLanguageCodeAnswer, detectedLanguageCode);
                     }
 
+                    // Print the question, answer, and confidence level
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Q:{translatedInput}");
                     Console.ResetColor();
@@ -103,72 +96,5 @@ namespace question_answering
                 }
             }
         }
-        static async Task<string> GetLanguage(string text)
-        {
-            // Default language is English
-            string language = "en";
-
-            // Use the Translator detect function
-            object[] body = new object[] { new { Text = text } };
-            var requestBody = JsonConvert.SerializeObject(body);
-            using (var client = new HttpClient())
-            {
-                using (var request = new HttpRequestMessage())
-                {
-                    // Build the request
-                    string path = "/detect?api-version=3.0";
-                    request.Method = HttpMethod.Post;
-                    request.RequestUri = new Uri(translatorEndpoint + path);
-                    request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-                    request.Headers.Add("Ocp-Apim-Subscription-Key", cogSvcKey);
-                    request.Headers.Add("Ocp-Apim-Subscription-Region", cogSvcRegion);
-
-                    // Send the request and get response
-                    HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                    // Read response as a string
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    // Parse JSON array and get language
-                    JArray jsonResponse = JArray.Parse(responseContent);
-                    language = (string)jsonResponse[0]["language"];
-                }
-            }
-            // return the language
-            return language;
-        }
-
-        static async Task<string> Translate(string text, string sourceLanguage, string targetLanguage)
-        {
-            string translation = "";
-
-            // Use the Translator translate function
-            object[] body = new object[] { new { Text = text } };
-            var requestBody = JsonConvert.SerializeObject(body);
-            using (var client = new HttpClient())
-            {
-                using (var request = new HttpRequestMessage())
-                {
-                    // Build the request
-                    string path = $"/translate?api-version=3.0&from={sourceLanguage}&to={targetLanguage}";
-                    request.Method = HttpMethod.Post;
-                    request.RequestUri = new Uri(translatorEndpoint + path);
-                    request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-                    request.Headers.Add("Ocp-Apim-Subscription-Key", cogSvcKey);
-                    request.Headers.Add("Ocp-Apim-Subscription-Region", cogSvcRegion);
-
-                    // Send the request and get response
-                    HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                    // Read response as a string
-                    string responseContent = await response.Content.ReadAsStringAsync();
-
-                    // Parse JSON array and get translation
-                    JArray jsonResponse = JArray.Parse(responseContent);
-                    translation = (string)jsonResponse[0]["translations"][0]["text"];
-                }
-            }
-            // Return the translation
-            return translation;
-        }
-
     }
 }
