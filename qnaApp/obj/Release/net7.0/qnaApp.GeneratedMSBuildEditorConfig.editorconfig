@@ -9,3 +9,5 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = qnaApp
 build_property.ProjectDir = D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

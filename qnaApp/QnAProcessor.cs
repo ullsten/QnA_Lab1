@@ -18,7 +18,7 @@ namespace question_answering
         {
             // Initialize instances of various services and clients
             _languageUtility = new LanguageUtility(cogSvcKey, cogSvcRegion, translatorEndpoint);
-            _textAnalyticsClient = new TextAnalyticsClient(new Uri(textAnalyticsEndpoint), new AzureKeyCredential(cogSvcKey));
+            _textAnalyticsClient = new TextAnalyticsClient(new Uri(textAnalyticsEndpoint), new AzureKeyCredential(cogSvcKey)); //null?
             _qnaClient = new QuestionAnsweringClient(new Uri(qnaEndpoint), new AzureKeyCredential(qnaKey));
             _qnaProject = new QuestionAnsweringProject("QuestionLab1Test", "production");
         }

@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\qnaApp"
   ],
+  "SelectedNode": "\\qnaApp\\QnAProcessor.cs",
   "PreviewInSolutionExplorer": false
 }
