@@ -24,6 +24,6 @@ D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7
 D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7.0\Microsoft.Extensions.Primitives.dll
 D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7.0\Sprache.dll
 D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7.0\Azure.AI.TextAnalytics.dll
-D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\obj\Debug\net7.0\qnaApp.sourcelink.json
 D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\bin\Debug\net7.0\Azure.AI.Translation.Text.dll
+D:\00.Edugrade - Systemutvecklare\09.AI\1.Labbar\Lab1_test\qnaApp\obj\Debug\net7.0\qnaApp.sourcelink.json

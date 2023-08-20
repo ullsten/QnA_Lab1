@@ -50,10 +50,8 @@ namespace question_answering
                 DetectedLanguage language = _textAnalyticsClient.DetectLanguage(userInput);
                 string detectedLanguageCode = language.Iso6391Name;
 
-                string translatedInput = userInput;
-
                 // Get answers from the QnA Maker system
-                Response<AnswersResult> response = _qnaClient.GetAnswers(translatedInput, _qnaProject);
+                Response<AnswersResult> response = _qnaClient.GetAnswers(userInput, _qnaProject);
 
                 foreach (KnowledgeBaseAnswer answer in response.Value.Answers)
                 {
@@ -70,7 +68,7 @@ namespace question_answering
 
                     // Print the question, answer, and confidence level
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Q:{translatedInput}");
+                    Console.WriteLine($"Q:{userInput}");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($"A:{qnaAnswer}");
