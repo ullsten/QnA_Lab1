@@ -13,16 +13,20 @@ namespace question_answering
 {
     class Program
     {
-            private static string qnaKey = Environment.GetEnvironmentVariable("QNA_KEY");
-            private static string qnaEndpoint = Environment.GetEnvironmentVariable("QNA_ENDPOINT");
-            private static string cogSvcKey = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_KEY");
-            private static string textAnalyticsEndpoint = Environment.GetEnvironmentVariable("TEXT_ANALYTICS_ENDPOINT");
-            private static string cogSvcRegion = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_REGION");
-            private static string translatorEndpoint = Environment.GetEnvironmentVariable("TRANSLATOR_ENDPOINT");
+        private static string qnaKey = Environment.GetEnvironmentVariable("QNA_KEY");
+        private static string qnaEndpoint = Environment.GetEnvironmentVariable("QNA_ENDPOINT");
+        private static string cogSvcKey = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_KEY");
+        private static string textAnalyticsEndpoint = Environment.GetEnvironmentVariable("TEXT_ANALYTICS_ENDPOINT");
+        private static string cogSvcRegion = Environment.GetEnvironmentVariable("COGNITIVE_SERVICE_REGION");
+        private static string translatorEndpoint = Environment.GetEnvironmentVariable("TRANSLATOR_ENDPOINT");
         static async Task Main(string[] args)
         {
             DotNetEnv.Env.Load();
-            
+
+            // Set console encoding to unicode, 
+            Console.InputEncoding = Encoding.Unicode;
+            Console.OutputEncoding = Encoding.Unicode;
+
             Uri endpoint = new Uri(qnaEndpoint);
             AzureKeyCredential credential = new AzureKeyCredential(qnaKey);
             string projectName = "QuestionLab1Test";
@@ -38,55 +42,69 @@ namespace question_answering
             Console.WriteLine("Welcome to Surface QNA Info");
             Console.ResetColor();
 
+            // Inside your Main method
             while (true)
             {
-              Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.Write("Ask a question (or type 'exit' to quit): ");
                 Console.ResetColor();
                 string userInput = Console.ReadLine();
+
                 if (userInput.ToLower() == "exit")
                 {
                     Console.WriteLine("Goodbye!");
                     break;
                 }
 
-                   // Detect the language of the user input
-                   //First detect language code
-                // DetectedLanguage language = textAnalyticsClient.DetectLanguage(userInput);
-                // string detectedLanguageCode = language.Iso6391Name;
+                //Get Isocode for language
+                DetectedLanguage language = textAnalyticsClient.DetectLanguage(userInput);
+                string detectedLanguageCode = language.Iso6391Name;
 
-                // Console.WriteLine($"Detected Language: {detectedLanguageCode}");
+                //Console.WriteLine($"Detected Language: {detectedLanguageCode}");
 
-                //Detect the language of userInput
-                string text = await GetLanguage(userInput);
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("Translated input: " + text);
-                Console.ResetColor(); 
+                string translatedInput = userInput; // Initialize with user input
 
-                //Translate text with Translator Text API
-                if(userInput != "en")
-                {
-                    var translatedText = await Translate(userInput, text);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Translation: " + translatedText);
-                    Console.ResetColor();
-                }
-                Response<AnswersResult> response = client.GetAnswers(userInput, project);
+                // if (detectedLanguageCode != "en")
+                // {
+                //     // Translate user input if not english(en)
+                //     translatedInput = await Translate(userInput, detectedLanguageCode);
+                //     Console.ForegroundColor = ConsoleColor.Blue;
+                //     Console.WriteLine("Translated input: " + translatedInput);
+                //     Console.ResetColor();
+                // }
+
+                Response<AnswersResult> response = client.GetAnswers(translatedInput, project);
 
                 foreach (KnowledgeBaseAnswer answer in response.Value.Answers)
                 {
-                  Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine($"Q:{userInput}");
+                    //Get language code for answer
+                    DetectedLanguage languageAnswer = textAnalyticsClient.DetectLanguage(answer.Answer);
+                    var detectedLanguageCodeAnswer = languageAnswer.Iso6391Name;
+
+                    //Console.WriteLine($"Detected answer code: {detectedLanguageCodeAnswer}");
+
+                    var qnaAnswer = answer.Answer;
+                    if (detectedLanguageCodeAnswer != detectedLanguageCode) // If the languages are different
+                    {
+                        qnaAnswer = await Translate(answer.Answer, detectedLanguageCodeAnswer, detectedLanguageCode);
+
+                        // Console.ForegroundColor = ConsoleColor.Red;
+                        // Console.WriteLine($"Translated answer: {qnaAnswer}");
+                        // Console.ResetColor();
+                    }
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"Q:{translatedInput}");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine($"A:{answer.Answer}");
+                    Console.WriteLine($"A:{qnaAnswer}");
                     Console.WriteLine($"({answer.Confidence})");
                     Console.ResetColor();
                 }
-            }            
+            }
         }
         static async Task<string> GetLanguage(string text)
-        {            
+        {
             // Default language is English
             string language = "en";
 
@@ -119,7 +137,7 @@ namespace question_answering
             return language;
         }
 
-        static async Task<string> Translate(string text, string sourceLanguage)
+        static async Task<string> Translate(string text, string sourceLanguage, string targetLanguage)
         {
             string translation = "";
 
@@ -131,7 +149,7 @@ namespace question_answering
                 using (var request = new HttpRequestMessage())
                 {
                     // Build the request
-                    string path = "/translate?api-version=3.0&from=" + sourceLanguage + "&to=en";
+                    string path = $"/translate?api-version=3.0&from={sourceLanguage}&to={targetLanguage}";
                     request.Method = HttpMethod.Post;
                     request.RequestUri = new Uri(translatorEndpoint + path);
                     request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
@@ -151,5 +169,6 @@ namespace question_answering
             // Return the translation
             return translation;
         }
+
     }
 }
