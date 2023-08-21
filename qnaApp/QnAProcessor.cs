@@ -29,14 +29,16 @@ namespace question_answering
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("Welcome to Surface QNA Info");
+            Console.WriteLine("Welcome to DriveHub Auto Emporium");
             Console.ResetColor();
 
             while (true)
             {
                 // Prompt user for a question
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.Write("Ask a question (or type 'exit' to quit): ");
+                Console.WriteLine("Ask a question (or type 'exit' to quit): ");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine("you can ask in any language..I understand the most..");
                 Console.ResetColor();
                 string userInput = Console.ReadLine();
 
