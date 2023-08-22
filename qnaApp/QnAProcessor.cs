@@ -36,15 +36,17 @@ namespace question_answering
             {
                 // Prompt user for a question
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                Console.WriteLine("Ask a question (or type 'exit' to quit): ");
+                Console.WriteLine("(type 'exit' to quit): ");     
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.WriteLine("you can ask in any language..I understand the most..");
+                Console.WriteLine(new string('_',60));
+                Console.WriteLine("you can ask in any language and I will try to understand..");
+                Console.WriteLine(new string('_',60));
                 Console.ResetColor();
                 string userInput = Console.ReadLine();
 
                 if (userInput.ToLower() == "exit")
                 {
-                    Console.WriteLine("Goodbye!");
+                    Console.WriteLine("Goodbye! Welcome back and have a nice day.");
                     break;
                 }
 
