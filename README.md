@@ -1,3 +1,5 @@
+# Keys, endpoints mm i .evn fil. Skapa din egen för att kunna testa denna beta version.
+
 # Lab1_test
 
 ## Om uppgiften:
