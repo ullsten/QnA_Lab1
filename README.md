@@ -1,8 +1,8 @@
-# Keys, endpoints mm i .evn fil. Skapa din egen för att kunna testa denna beta version.
+## Keys, endpoints mm i .evn fil. Skapa din egen för att kunna testa denna beta version.
 
-# Lab1_test
+### QnA Lab1 AI
 
-## Om uppgiften:
+### Om uppgiften:
 
 I denna labb kommer du bygga en app där du använder dig av Natural Language Processing och QnA i Azure AI. Du kan exempelvis utgå från det fiktiva caset att kundtjänsten på ett företag vill kunna ge enkla svar oberoende av input-språk, och ge virtuell hjälp.
 
