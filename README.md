@@ -1,6 +1,6 @@
-##### Keys, endpoints mm i .evn fil. Skapa din egen för att kunna testa denna beta version.
-##### Datasets för en bilaffär, märken Ford, Honda, Toyota, BMW, Mercedes-Benz. 
-##### Delvis support för att få information om märken, service, pris mm. 
+####### Keys, endpoints mm i .evn fil. Skapa din egen för att kunna testa denna beta version.
+####### Datasets för en bilaffär, märken Ford, Honda, Toyota, BMW, Mercedes-Benz. 
+####### Delvis support för att få information om märken, service, pris mm. 
 
 ### QnA Lab1 AI
 
